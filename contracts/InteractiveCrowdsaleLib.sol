@@ -65,10 +65,10 @@ library InteractiveCrowdsaleLib {
   	InteractiveCrowdsaleToken token; //token being sold
 
     // List of personal valuations, sorted from smallest to largest (from LinkedListLib)
-    LinkedListLib.LinkedList valuationsList; /* OK, so this is the linkedlist of different peoples valuation caps.. */
+    LinkedListLib.LinkedList valuationsList;
 
     // Info holder for token creation
-    TokenLib.TokenStorage tokenInfo; /* These are the values that will ultimately  */
+    TokenLib.TokenStorage tokenInfo;
 
     uint256 endWithdrawalTime;   // time when manual withdrawals are no longer allowed
 
@@ -168,10 +168,6 @@ library InteractiveCrowdsaleLib {
   /// @param _tokenName name of the token being sold. ex: "Jason Network Token"
   /// @param _tokenSymbol symbol of the token. ex: "JNT"
   /// @param _tokenDecimals number of decimals in the token
-  /* NOTE: This is basically the code which will be called by the constructor of the calling contract
-      Question: is there anything that can be done here to fuck with the Library contract itself?
-        Does solidity Guarantee that a Library is stateless?
-   */
   function init(InteractiveCrowdsaleStorage storage self,
                 address _owner,
                 uint256 _priceBonusPercent,
@@ -197,7 +193,7 @@ library InteractiveCrowdsaleLib {
     require(_percentBeingSold <= 100);
     require(_priceBonusPercent > 0);
 
-    /* Just sets a bunch of parameters for the sale in the struct. This must be a massive struct in storage */
+    /* Just sets a bunch of parameters for the sale in the struct. */
     self.owner = _owner;
     self.priceBonusPercent = _priceBonusPercent;
     self.minimumRaise = _minimumRaise;
@@ -271,7 +267,7 @@ library InteractiveCrowdsaleLib {
   }
 
   function isAValidPurchase(InteractiveCrowdsaleStorage storage self) private view returns (bool){
-    require(msg.sender != self.owner); /* J: Interesting, so owner can't bid? OK. */
+    require(msg.sender != self.owner);
 
     bool nonZeroPurchase = msg.value != 0;
     require(nonZeroPurchase);
@@ -315,12 +311,11 @@ library InteractiveCrowdsaleLib {
       /* Must be divisible by 10x the number of digits over 3.
         ie. 1230 has 4 digits. It's divisible by (4-3)*10 = 10, so it's OK.
        */
-      require((_personalCap % (10**(placeholder - 3))) == 0); /* J: I checked this math, it's good. */
+      require((_personalCap % (10**(placeholder - 3))) == 0);
     }
 
     // add the bid to the sorted valuations list
     // duplicate personal valuation caps share a spot in the linked list
-    /* J: LinkedListLib is going to need careful review */
     if(!self.valuationsList.nodeExists(_personalCap)){
         placeholder = self.valuationsList.getSortedSpot(_valuePredict,_personalCap,NEXT);
         self.valuationsList.insert(placeholder,_personalCap,PREV);
@@ -335,9 +330,6 @@ library InteractiveCrowdsaleLib {
     self.numBidsAtValuation[_personalCap] = self.numBidsAtValuation[_personalCap].add(1);
 
     // add the bid to bidder's contribution amount
-    /* Note: the above requires (self.hasContributed[msg.sender] == 0)
-      But this comment seems to suggest otherwise.
-    */
     self.hasContributed[msg.sender] = self.hasContributed[msg.sender].add(_amount);
 
     // temp variables for calculation
@@ -345,7 +337,7 @@ library InteractiveCrowdsaleLib {
     uint256 _currentBucket;
     bool loop;
     bool exists;
-    /* J: reviewed the function up to this point */
+
     // we only affect the pointer if we are coming in above it
     if(_personalCap > self.currentBucket){
 
@@ -421,7 +413,6 @@ library InteractiveCrowdsaleLib {
       require(self.personalCaps[msg.sender] < self.totalValuation);
 
       // full refund because their bid no longer affects the total sale valuation
-      /* FLAG: queuing up a refund without checking self.hasManuallyWithdrawn? */
       refundWei = self.hasContributed[msg.sender];
     } else {
       require(!self.hasManuallyWithdrawn[msg.sender]);  // manual withdrawals are only allowed once
@@ -620,9 +611,6 @@ library InteractiveCrowdsaleLib {
     uint256 numTokens; /* setup some pointers */
     uint256 remainder;
 
-    //g seriously ?
-    //g  self.isCanceled is checked twice and setCanceled is always true
-
     if(!self.isFinalized){
       require(setCanceled(self));
     }
@@ -708,7 +696,7 @@ library InteractiveCrowdsaleLib {
 
     uint256 total = self.withdrawTokensMap[msg.sender];
     self.withdrawTokensMap[msg.sender] = 0;
-    ok = self.token.transfer(msg.sender, total); /* MYTHRIL: ==== CALL with gas to dynamic address ==== */
+    ok = self.token.transfer(msg.sender, total);
     require(ok);
     LogTokensWithdrawn(msg.sender, total);
     return true;
@@ -733,8 +721,6 @@ library InteractiveCrowdsaleLib {
   /// @dev send ether from the completed crowdsale to the owners wallet address
   /// @param self Stored crowdsale from crowdsale contract
   /// @return true if owner withdrew eth
-  /* FLAG: this function allows a withdrawal of the full ETH value. What if the participants still
-    have ETH to withdraw? */
   function withdrawOwnerEth(InteractiveCrowdsaleStorage storage self) public returns (bool) {
     require(msg.sender == self.owner);
     require(self.ownerBalance > 0);

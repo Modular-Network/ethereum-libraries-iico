@@ -1,6 +1,6 @@
 {
   "name": "ethereum-libraries-iico",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Interactive crowdsale library used by crowdsale contracts",
   "keywords": [
     "ethereum",

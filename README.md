@@ -68,8 +68,8 @@ A crowdsale library to use for interactive crowdsale contract deployment.
 
 ### v2.0.0
 
-**Main Ethereum Network**: 0xbb03C8c529CcE73Ee350A4eBB2A6F712A8E9e348    
-**Rinkeby Test Network**: 0xb70364d1C6eCFa89526e7B40dFA2270BBEfFA853    
+**Main Ethereum Network**: 0xa43Ef369D12Dc7f016003c933dcBc626Cc8eA08d    
+**Rinkeby Test Network**: 0x53d9fb5206FEA4B6771b16d350FE0cFc7E72dd31    
 
 ## License and Warranty   
 
