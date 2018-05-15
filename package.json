@@ -1,0 +1,61 @@
+{
+  "name": "ethereum-libraries-iico",
+  "version": "2.0.0",
+  "description": "Interactive crowdsale library used by crowdsale contracts",
+  "keywords": [
+    "ethereum",
+    "token",
+    "erc20",
+    "iico",
+    "crowdsale",
+    "modular"
+  ],
+  "homepage": "https://github.com/Modular-Network/ethereum-libraries",
+  "bugs": "https://github.com/Modular-Network/ethereum-libraries/issues",
+  "license": "MIT",
+  "author": {
+    "name": "Modular Inc",
+    "email": "contact@modular.network",
+    "url": "https://modular.network"
+  },
+  "scripts": {
+    "test:coverage": "./node_modules/.bin/solidity-coverage",
+    "test": "bash run_test.sh"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-bignumber": "^2.0.1",
+    "ethereum-libraries-basic-math": "^1.2.5",
+    "ethereum-libraries-linked-list": "^1.1.1",
+    "ethereum-libraries-token": "1.3.3",
+    "zeppelin-solidity": "^1.9.0"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.0.0-beta.32",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^6.1.2",
+    "babel-loader": "^6.4.1",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-register": "^6.26.0",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-mocha": "^4.11.0",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^2.3.1",
+    "ethereumjs-testrpc": "6.0.1",
+    "ganache-cli": "6.1.0",
+    "json-loader": "^0.5.7",
+    "solidity-coverage": "0.4.14",
+    "truffle": "4.1.5",
+    "truffle-hdwallet-provider": "0.0.3",
+    "webpack": "^2.7.0"
+  }
+}
